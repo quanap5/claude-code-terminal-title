@@ -18,7 +18,22 @@ The skill automatically:
 
 ## Installation
 
-### Quick Install (Recommended)
+### Automated Install & Test (Recommended)
+
+```bash
+# Clone or download this repository, then run:
+cd claude-code-terminal-title
+chmod +x install-and-test.sh
+./install-and-test.sh
+```
+
+This script will:
+- ✅ Extract the skill to `~/.claude/skills/`
+- ✅ Set proper permissions
+- ✅ Run verification tests
+- ✅ Show you the results in real-time
+
+### Quick Install (Claude Code CLI)
 
 ```bash
 # Download the skill file, then install it:
@@ -33,7 +48,29 @@ mkdir -p ~/.claude/skills
 
 # Extract the skill
 unzip terminal-title.skill -d ~/.claude/skills/
+
+# Make script executable
+chmod +x ~/.claude/skills/terminal-title/scripts/set_title.sh
 ```
+
+### Additional Setup (macOS Terminal.app Users)
+
+If you're using macOS Terminal.app with zsh, run the setup script to ensure clean titles without unwanted prefixes/suffixes:
+
+```bash
+cd claude-code-terminal-title
+chmod +x setup-zsh.sh
+./setup-zsh.sh
+```
+
+This script will:
+- ✅ Configure your `~/.zshrc` to preserve Claude titles
+- ✅ Disable Terminal.app's title suffixes (shell name, dimensions)
+- ✅ Create a backup of your `.zshrc` before making changes
+
+**Why is this needed?** macOS Terminal.app by default appends " – -zsh – 80x24" to all window titles. This setup script automatically disables those additions so you get clean titles.
+
+**Note:** Changes take effect in NEW terminal windows. You'll need to open a new window or tab after running the setup.
 
 ## Usage
 
@@ -63,11 +100,24 @@ This produces titles like: `🤖 Claude | Build: Dashboard UI`
 
 ## Compatibility
 
-Works with:
-- macOS Terminal
-- iTerm2
-- Alacritty
-- Most modern terminal emulators supporting ANSI escape sequences
+### Fully Tested & Working
+- ✅ macOS Terminal.app + zsh (with setup-zsh.sh)
+- ✅ iTerm2 (macOS)
+
+### Should Work (Not Extensively Tested)
+- ⚠️ Alacritty
+- ⚠️ Kitty
+- ⚠️ GNOME Terminal (Linux)
+- ⚠️ Konsole (KDE)
+- ⚠️ Windows Terminal + WSL
+
+### Known Limitations
+- ❌ Plain bash without precmd support (titles won't persist across prompts)
+- ❌ Windows native terminals (Command Prompt, PowerShell) - ANSI escape sequences not universally supported
+- ❌ Very old terminal emulators without ANSI support
+
+### Session Behavior
+When you set a title in Terminal A and open Terminal B within 5 minutes, Terminal B will initially inherit Terminal A's title. Once Claude Code runs in Terminal B and sets a new title, each terminal will maintain its own title independently. This is by design - it prevents stale titles from appearing in new terminals while preserving titles within active sessions.
 
 ## Technical Details
 
@@ -116,13 +166,52 @@ Your terminal may not support ANSI escape sequences. Try:
 - Verify SKILL.md is properly formatted (YAML front matter at top)
 - Check Claude Code version supports skills
 
+### Title Shows Unwanted Prefix or Suffix? (macOS Terminal.app)
+
+If your title shows something like "username - Your Title - -zsh - 80x24", run:
+
+```bash
+./setup-zsh.sh
+```
+
+Then open a NEW terminal window. See the "Additional Setup" section above for details.
+
 ### Title Too Generic?
 
 Be more specific in your prompts about what you want to accomplish
 
 ## Contributing
 
-Found a bug? Have a feature request? Open an issue on GitHub or reach out directly.
+**We need your help!** This skill was built and tested primarily on macOS with Terminal.app and zsh.
+
+### Areas Where We Need Contributions:
+
+**Terminal Emulator Testing:**
+- Alacritty users - does it work out of the box?
+- Kitty users - any title persistence issues?
+- Linux (GNOME Terminal, Konsole, Terminator) - what setup is needed?
+- Windows Terminal + WSL - does the zsh config work?
+
+**Shell Support:**
+- bash users - can we add precmd equivalent for bash?
+- fish shell - title persistence implementation?
+- Other shells?
+
+**Feature Improvements:**
+- Better title generation logic in SKILL.md
+- Configuration options (freshness window, fallback behavior)
+- Support for tmux/screen session titles
+
+### How to Contribute:
+
+1. **Test on your setup** - Try the skill and document what works/doesn't
+2. **Submit issues** - Found a bug or edge case? Open an issue with details
+3. **Pull requests welcome** - Especially for:
+   - Shell-specific setup scripts (setup-bash.sh, setup-fish.sh)
+   - Cross-platform compatibility fixes
+   - Documentation improvements
+
+Found a bug? Have a feature request? Open an issue on GitHub!
 
 ## License
 

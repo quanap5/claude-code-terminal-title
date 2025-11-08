@@ -29,7 +29,26 @@ This skill solves that by automatically updating your terminal title to reflect 
 
 ## Installation
 
-### Quick Install
+### Automated Install & Test (Recommended)
+
+```bash
+# Clone this repository
+git clone https://github.com/bluzername/claude-code-terminal-title.git
+cd claude-code-terminal-title
+
+# Run the installation script
+chmod +x install-and-test.sh
+./install-and-test.sh
+```
+
+The script will:
+- ✅ Install the skill to `~/.claude/skills/`
+- ✅ Set proper file permissions
+- ✅ Run 6 verification tests
+- ✅ Show real-time feedback
+- ✅ Provide next steps
+
+### Quick Install (Claude Code CLI)
 
 ```bash
 # Download terminal-title.skill, then:
@@ -44,7 +63,22 @@ mkdir -p ~/.claude/skills
 
 # Extract the skill
 unzip terminal-title.skill -d ~/.claude/skills/
+
+# Make script executable
+chmod +x ~/.claude/skills/terminal-title/scripts/set_title.sh
 ```
+
+### Additional Setup (macOS Terminal.app Users)
+
+If you're using macOS Terminal.app with zsh, run the setup script to ensure clean titles:
+
+```bash
+cd claude-code-terminal-title
+chmod +x setup-zsh.sh
+./setup-zsh.sh
+```
+
+This configures your `~/.zshrc` and disables Terminal.app's automatic title suffixes (e.g., " – -zsh – 80x24"). Changes take effect in NEW terminal windows.
 
 ## Usage
 
@@ -85,16 +119,22 @@ This is perfect for:
 
 ## Compatibility
 
-**Terminal Emulators:**
-- ✅ macOS Terminal
-- ✅ iTerm2
-- ✅ Alacritty
-- ✅ Most terminals supporting ANSI escape sequences
+### Fully Tested & Working ✅
+- macOS Terminal.app + zsh (with setup-zsh.sh)
+- iTerm2 (macOS)
 
-**Operating Systems:**
-- ✅ macOS
-- ✅ Linux
-- ⚠️ Windows (WSL/Git Bash should work)
+### Should Work (Community Testing Needed) ⚠️
+- Alacritty, Kitty
+- Linux: GNOME Terminal, Konsole, Terminator
+- Windows Terminal + WSL
+
+### Known Limitations ❌
+- Plain bash without precmd support (titles won't persist)
+- Windows native terminals (CMD, PowerShell) - limited ANSI support
+- Very old terminal emulators
+
+### Session Behavior
+When opening a new terminal within 5 minutes of setting a title, it may initially inherit the previous terminal's title. Once Claude Code runs and sets a new title in that terminal, each maintains its own title independently. This prevents stale titles while preserving active session titles.
 
 ## Technical Details
 
@@ -166,13 +206,33 @@ chmod +x ~/.claude/skills/terminal-title/scripts/set_title.sh
 
 ## Contributing
 
-Contributions welcome! Whether it's:
-- Bug reports
-- Feature requests
-- Code improvements
-- Documentation updates
+**We need your help!** This skill was developed and tested primarily on macOS with zsh.
 
-Please [open an issue](../../issues) or submit a pull request.
+### High-Priority Contributions Needed:
+
+**Platform Testing:**
+- Linux users: Does it work? Share your setup!
+- Windows + WSL: Title persistence working?
+- Other terminal emulators: Compatibility reports needed
+
+**Shell Support:**
+- bash users: Can we create setup-bash.sh?
+- fish shell: Title persistence implementation?
+- Other shells: Testing and documentation
+
+**Code Contributions:**
+- Shell-specific setup scripts
+- Cross-platform compatibility fixes
+- Better title generation logic
+- Configuration options (freshness window, etc.)
+
+### How to Contribute:
+
+1. **Test and Report**: Try it on your setup, document what works/doesn't
+2. **Open Issues**: Found a bug or edge case? [Report it](../../issues)
+3. **Submit PRs**: Especially welcome for shell/platform support
+
+All contributions appreciated, no matter how small!
 
 ## Future Enhancements
 
