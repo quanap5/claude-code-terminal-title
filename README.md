@@ -13,8 +13,9 @@ Running multiple Claude Code sessions? Constantly clicking between terminals try
 The skill automatically:
 1. Analyzes your prompt when you start a new task
 2. Generates a concise, descriptive title (e.g., "API Integration: Auth Flow")
-3. Updates your terminal window title in the background
-4. No manual configuration needed
+3. Prepends the current folder name for context (e.g., "my-project | API Integration: Auth Flow")
+4. Updates your terminal window title in the background
+5. No manual configuration needed
 
 ## Installation
 
@@ -79,13 +80,13 @@ This script will:
 ### Examples
 
 **User prompt:** "Help me debug the authentication API"
-**Terminal title:** → "Debug: Auth API Flow"
+**Terminal title:** → "my-api-project | Debug: Auth API Flow"
 
 **User prompt:** "Create a React dashboard component"
-**Terminal title:** → "Build: Dashboard UI"
+**Terminal title:** → "react-app | Build: Dashboard UI"
 
 **User prompt:** "Write tests for payment processing"
-**Terminal title:** → "Test: Payment Module"
+**Terminal title:** → "payment-service | Test: Payment Module"
 
 ### Optional Customization
 
@@ -96,7 +97,11 @@ You can add a custom prefix to all terminal titles:
 export CLAUDE_TITLE_PREFIX="🤖 Claude"
 ```
 
-This produces titles like: `🤖 Claude | Build: Dashboard UI`
+This produces titles like: `🤖 Claude | my-project | Build: Dashboard UI`
+
+**Title Format:**
+- Default: `[Folder Name] | [Task Description]`
+- With custom prefix: `[Custom Prefix] | [Folder Name] | [Task Description]`
 
 ## Compatibility
 
